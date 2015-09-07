@@ -17,17 +17,28 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
     
+    var filtersSections: [Any]! = []
+    
     var categories: [[String:String]]!
     var switchStates = [Int:Bool]()
     
+    let HeaderViewIdentifier = "TableViewHeaderView"
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         categories = yelpCategories()
         
+        filtersSections.append(categories)
+        
         tableView.delegate = self
         tableView.dataSource = self
+//        tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: CellIdentifier)
+        tableView.registerClass(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return filtersSections.count
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,14 +76,41 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
-        
-        cell.switchLabel.text = categories[indexPath.row]["name"]
-        cell.delegate = self
-        
-        cell.onSwitch.on = switchStates[indexPath.row] ?? false
-        
-        return cell
+        switch indexPath.row {
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("DealsCell", forIndexPath: indexPath) as! DealsCell
+            cell.dealsLabel.text = "Offering Deals?"
+            return cell
+            
+        case 1...3:
+            let cell = tableView.dequeueReusableCellWithIdentifier("DistanceCell", forIndexPath: indexPath) as! DistanceCell
+            cell.distanceLabel.text = "9000"
+            return cell
+        case 4...6:
+            let cell = tableView.dequeueReusableCellWithIdentifier("SortByCell", forIndexPath: indexPath) as! SortByCell
+            
+            cell.sortByLabel.text = "Test"
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
+
+
+            if let categoryName = categories[indexPath.row]["name"] {
+                cell.switchLabel.text = categoryName
+            }
+            
+            cell.delegate = self
+            
+            cell.onSwitch.on = switchStates[indexPath.row] ?? false
+            
+            return cell
+        }
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(HeaderViewIdentifier) as! UITableViewHeaderFooterView
+        header.textLabel.text = "Test"
+        return header
     }
     
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {

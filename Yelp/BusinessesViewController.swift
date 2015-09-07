@@ -39,21 +39,14 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         // Creates a sized-to-fit search bar in place of the navigation controller header
         searchController.searchBar.sizeToFit()
+        searchController.searchBar.placeholder = "Filter by name"
         tableView.tableHeaderView = searchController.searchBar
         
         // Sets this view controller as presenting view controller for the search interface
         definesPresentationContext = true
-
-//        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
-//            self.businesses = businesses
-//            
-//            for business in businesses {
-//                println(business.name!)
-//                println(business.address!)
-//            }
-//        })
         
         Business.searchWithTerm("Restaurants", sort: .Distance, categories: [], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+            println("Initial Search")
             self.businesses = businesses
             self.filteredBusinessess = businesses
             self.tableView.reloadData()
@@ -116,7 +109,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         var categories = filters["categories"] as? [String]
         
         Business.searchWithTerm("Restaurants", sort: nil, categories: categories, deals: nil) { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
+            self.filteredBusinessess = businesses
             self.tableView.reloadData()
         }
     }

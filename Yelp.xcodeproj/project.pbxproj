@@ -17,6 +17,9 @@
 		22AAAA991AEA0A9700A544AF /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AAAA981AEA0A9700A544AF /* Business.swift */; };
 		22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */; };
 		6481C80F1B967B5200D415AE /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6481C80E1B967B5200D415AE /* BusinessCell.swift */; };
+		64DAB2131B9E195600758368 /* DistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DAB2121B9E195600758368 /* DistanceCell.swift */; };
+		64DAB2151B9E197100758368 /* SortByCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DAB2141B9E197100758368 /* SortByCell.swift */; };
+		64DAB2171B9E1FBC00758368 /* DealsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64DAB2161B9E1FBC00758368 /* DealsCell.swift */; };
 		64FA01791B99136A0017DBFE /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA01781B99136A0017DBFE /* SwitchCell.swift */; };
 		64FA017B1B9918990017DBFE /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FA017A1B9918990017DBFE /* FiltersViewController.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +49,9 @@
 		22AAAA981AEA0A9700A544AF /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessesViewController.swift; sourceTree = "<group>"; };
 		6481C80E1B967B5200D415AE /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
+		64DAB2121B9E195600758368 /* DistanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceCell.swift; sourceTree = "<group>"; };
+		64DAB2141B9E197100758368 /* SortByCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SortByCell.swift; sourceTree = "<group>"; };
+		64DAB2161B9E1FBC00758368 /* DealsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealsCell.swift; sourceTree = "<group>"; };
 		64FA01781B99136A0017DBFE /* SwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchCell.swift; sourceTree = "<group>"; };
 		64FA017A1B9918990017DBFE /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		97D8B2E3FFD1AF4F4A707E47 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +178,9 @@
 			children = (
 				6481C80E1B967B5200D415AE /* BusinessCell.swift */,
 				64FA01781B99136A0017DBFE /* SwitchCell.swift */,
+				64DAB2121B9E195600758368 /* DistanceCell.swift */,
+				64DAB2141B9E197100758368 /* SortByCell.swift */,
+				64DAB2161B9E1FBC00758368 /* DealsCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -320,9 +329,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64DAB2131B9E195600758368 /* DistanceCell.swift in Sources */,
+				64DAB2151B9E197100758368 /* SortByCell.swift in Sources */,
 				6481C80F1B967B5200D415AE /* BusinessCell.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				64FA017B1B9918990017DBFE /* FiltersViewController.swift in Sources */,
+				64DAB2171B9E1FBC00758368 /* DealsCell.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
