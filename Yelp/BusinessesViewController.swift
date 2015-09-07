@@ -8,11 +8,14 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, FiltersViewControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
 
     var businesses: [Business]!
+    var filteredBusinessess: [Business]!
+    
+    var searchController: UISearchController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,18 +26,36 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         // These two properties must be set in order to use auto layout and ensure the scroll bar appears at a sane size
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
-
-        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-            
-            for business in businesses {
-                println(business.name!)
-                println(business.address!)
-            }
-        })
         
-        Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+        // Initializing with searchResultsController set to nil means that
+        // searchController will use this view controller to display the search results
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        
+        // If we are using this same view controller to present the results
+        // dimming it out wouldn't make sense.  Should set probably only set
+        // this to yes if using another controller to display the search results.
+        searchController.dimsBackgroundDuringPresentation = false
+        
+        // Creates a sized-to-fit search bar in place of the navigation controller header
+        searchController.searchBar.sizeToFit()
+        tableView.tableHeaderView = searchController.searchBar
+        
+        // Sets this view controller as presenting view controller for the search interface
+        definesPresentationContext = true
+
+//        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
+//            self.businesses = businesses
+//            
+//            for business in businesses {
+//                println(business.name!)
+//                println(business.address!)
+//            }
+//        })
+        
+        Business.searchWithTerm("Restaurants", sort: .Distance, categories: [], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
+            self.filteredBusinessess = businesses
             self.tableView.reloadData()
             
             for business in businesses {
@@ -50,8 +71,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if businesses != nil {
-            return businesses.count
+        if filteredBusinessess != nil {
+            return filteredBusinessess.count
         } else {
             return 0
         }
@@ -61,10 +82,34 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
         
         
-        cell.business = businesses[indexPath.row]
+        cell.business = filteredBusinessess[indexPath.row]
         
         return cell
         
+    }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchText = searchController.searchBar.text
+        
+        filteredBusinessess = searchText.isEmpty ? businesses : businesses.filter() {
+            if let name = ($0 as Business).name as String! {
+                return name.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+            } else {
+                return false
+            }
+        }
+        
+//        Debugging to make sure this works. It does.
+        var debugBusinessStrings = [String]()
+        
+        for businessname in filteredBusinessess {
+            debugBusinessStrings.append(businessname.name!)
+        }
+        
+        println(debugBusinessStrings)
+        println(filteredBusinessess.count)
+        
+        tableView.reloadData()
     }
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
