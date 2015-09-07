@@ -45,7 +45,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         // Sets this view controller as presenting view controller for the search interface
         definesPresentationContext = true
         
-        Business.searchWithTerm("Restaurants", sort: .Distance, categories: [], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
+        Business.searchWithTerm("Restaurants", sort: .Distance, categories: [], deals: false) { (businesses: [Business]!, error: NSError!) -> Void in
             println("Initial Search")
             self.businesses = businesses
 //            self.filteredBusinessess = businesses
@@ -115,10 +115,11 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.reloadData()
     }
     
-    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject], didUpdateDeals deals: Bool) {
         var categories = filters["categories"] as? [String]
+        var wantsDeals = deals
         
-        Business.searchWithTerm("Restaurants", sort: nil, categories: categories, deals: nil) { (businesses: [Business]!, error: NSError!) -> Void in
+        Business.searchWithTerm("Restaurants", sort: nil, categories: categories, deals: wantsDeals) { (businesses: [Business]!, error: NSError!) -> Void in
             self.filteredBusinessess = businesses
             self.tableView.reloadData()
         }

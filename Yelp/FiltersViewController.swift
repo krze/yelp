@@ -9,10 +9,10 @@
 import UIKit
 
 @objc protocol FiltersViewControllerDelegate {
-    optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject])
+    optional func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String:AnyObject], didUpdateDeals deals: Bool)
 }
 
-class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate {
+class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate, DealsCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: FiltersViewControllerDelegate?
@@ -21,6 +21,8 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     var categories: [[String:String]]!
     var switchStates = [Int:Bool]()
+    
+    var dealsState = Bool()
     
     let HeaderViewIdentifier = "TableViewHeaderView"
     
@@ -56,6 +58,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         dismissViewControllerAnimated(true, completion: nil)
         
         var filters = [String:AnyObject]()
+        var deals = dealsState
         var selectedCategories = [String]()
         
         for (row, isSelected) in switchStates {
@@ -63,12 +66,11 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
                 selectedCategories.append(categories[row]["code"]!)
             }
         }
-        
         if selectedCategories.count > 0 {
             filters["categories"] = selectedCategories
         }
         
-        delegate?.filtersViewController?(self, didUpdateFilters: filters)
+        delegate?.filtersViewController?(self, didUpdateFilters: filters, didUpdateDeals: deals)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,16 +82,18 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         case 0:
             let cell = tableView.dequeueReusableCellWithIdentifier("DealsCell", forIndexPath: indexPath) as! DealsCell
             cell.dealsLabel.text = "Offering Deals?"
+            cell.delegate = self
+            cell.dealsSwitch.on = switchStates[indexPath.row] ?? false
             return cell
             
         case 1...3:
             let cell = tableView.dequeueReusableCellWithIdentifier("DistanceCell", forIndexPath: indexPath) as! DistanceCell
-            cell.distanceLabel.text = "9000"
+            cell.distanceLabel.text = "Distance Test"
             return cell
         case 4...6:
             let cell = tableView.dequeueReusableCellWithIdentifier("SortByCell", forIndexPath: indexPath) as! SortByCell
             
-            cell.sortByLabel.text = "Test"
+            cell.sortByLabel.text = "Sort By Test"
             return cell
         default:
             let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
@@ -100,7 +104,6 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             
             cell.delegate = self
-            
             cell.onSwitch.on = switchStates[indexPath.row] ?? false
             
             return cell
@@ -117,6 +120,10 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         let indexPath = tableView.indexPathForCell(switchCell)!
         
         switchStates[indexPath.row] = value
+    }
+    
+    func dealsCell(dealscell: DealsCell, didChangeValue value: Bool) {
+        dealsState = value
     }
 
     /*
