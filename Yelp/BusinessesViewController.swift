@@ -48,7 +48,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         Business.searchWithTerm("Restaurants", sort: .Distance, categories: [], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
             println("Initial Search")
             self.businesses = businesses
-            self.filteredBusinessess = businesses
+//            self.filteredBusinessess = businesses
             self.tableView.reloadData()
             
             for business in businesses {
@@ -66,18 +66,28 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if filteredBusinessess != nil {
             return filteredBusinessess.count
+        } else if  businesses != nil {
+            return businesses.count
         } else {
             return 0
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
         
-        
-        cell.business = filteredBusinessess[indexPath.row]
-        
-        return cell
+        if filteredBusinessess != nil {
+            let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
+            
+            cell.business = filteredBusinessess[indexPath.row]
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
+            
+            cell.business = businesses[indexPath.row]
+            
+            return cell
+        }
         
     }
     
