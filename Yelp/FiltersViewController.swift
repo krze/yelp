@@ -22,7 +22,12 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     var categories: [[String:String]]!
     var switchStates = [Int:Bool]()
     
+    let deals = ["Offering Deals?"]
     var dealsState = Bool()
+    
+    let distance = ["500", "1000", "5000"]
+    
+    let sortBy = ["Best Match", "Distance", "Rating"]
     
     let HeaderViewIdentifier = "TableViewHeaderView"
     
@@ -30,9 +35,19 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewDidLoad()
 
         categories = yelpCategories()
+        let categoriesSection = ("Categories", categories)
+        filtersSections.append(categoriesSection)
         
-        filtersSections.append(categories)
+        let dealsSection = ("Deals", deals)
+        filtersSections.append(dealsSection)
         
+        let distanceSection = ("Distance in Meters", distance)
+        filtersSections.append(distanceSection)
+        
+        let sortBySection = ("Sort By", sortBy)
+        filtersSections.append(sortBySection)
+        
+        println(filtersSections)
         tableView.delegate = self
         tableView.dataSource = self
 //        tableView.registerClass(SwitchCell.self, forCellReuseIdentifier: CellIdentifier)
@@ -42,6 +57,11 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return filtersSections.count
     }
+
+    // Doesn't work.
+//    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return filtersSections[section].1.count
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
