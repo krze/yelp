@@ -31,6 +31,6 @@ Time spent: `8 Hours`
 
 ### Walkthrough
 
-![Video Walkthrough](...)
+![Video Walkthrough](https://github.com/krze/yelp/raw/master/yelp.gif)
 
 
